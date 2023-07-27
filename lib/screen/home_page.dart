@@ -1,23 +1,25 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:rpmlauncher/config/config.dart';
+import 'package:rpmlauncher/i18n/i18n.dart';
 import 'package:rpmlauncher/model/Game/MinecraftNews.dart';
 import 'package:rpmlauncher/model/Game/MinecraftSide.dart';
 import 'package:rpmlauncher/route/PushTransitions.dart';
 import 'package:rpmlauncher/screen/about.dart';
 import 'package:rpmlauncher/screen/settings.dart';
 import 'package:rpmlauncher/screen/version_selection.dart';
-import 'package:rpmlauncher/config/config.dart';
 import 'package:rpmlauncher/util/data.dart';
-import 'package:rpmlauncher/i18n/i18n.dart';
 import 'package:rpmlauncher/util/launcher_info.dart';
 import 'package:rpmlauncher/util/updater.dart';
 import 'package:rpmlauncher/util/util.dart';
-import 'package:rpmlauncher/view/instance_view.dart';
 import 'package:rpmlauncher/view/MinecraftNewsView.dart';
+import 'package:rpmlauncher/view/instance_view.dart';
 import 'package:rpmlauncher/view/row_scroll_view.dart';
 import 'package:rpmlauncher/widget/AccountManageAction.dart';
-import 'package:rpmlauncher/widget/dialog/quick_setup.dart';
 import 'package:rpmlauncher/widget/dialog/UpdaterDialog.dart';
+import 'package:rpmlauncher/widget/dialog/quick_setup.dart';
 import 'package:rpmlauncher/widget/keep_alive_wrapper.dart';
 import 'package:rpmlauncher/widget/rpmtw_design/NewFeaturesWidget.dart';
 import 'package:rpmlauncher/widget/rpmtw_design/OkClose.dart';
@@ -51,6 +53,118 @@ class _HomePageState extends State<HomePage> {
                 builder: (context) => UpdaterDialog(info: info));
           }
         });
+        showDialog(
+            context: context,
+            builder: (context) {
+              return StatefulBuilder(builder: (context, setState) {
+                return Dialog.fullscreen(
+                    child: Center(
+                        child: SingleChildScrollView(
+                            child: Padding(
+                                padding: const EdgeInsets.all(20),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Text(
+                                      '已不再支援 RPMLauncher',
+                                      textScaleFactor: 3,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(color: Colors.red),
+                                    ),
+                                    const SizedBox(
+                                      height: 40,
+                                    ),
+                                    const SingleChildScrollView(
+                                        child: Text(
+                                      "有鑑於當初 RPMLauncher 的設計問題，留下了許多技術債，導致目前的啟動器存在大量 bug 與穩定性問題。\n因此，我們決定重新設計，這次不僅僅是重新設計技術層面，我們也將大幅改進使用者介面與體驗。\n\n全新的啟動器將稱作 Era Connect，期望在未來帶給您最好的體驗!\n\n在 Era Connect 正式發布之前，我們強烈建議您以 Prism Launcher 作為替代方案，點選下方按紐即可前往其官方網站。\n\n如果您仍想要繼續使用 RPMLauncher，請按下方按鈕繼續，但請自行承擔風險，我們也不接受任何的技術支援。",
+                                      textScaleFactor: 1.5,
+                                    )),
+                                    const SizedBox(
+                                      height: 40,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                            child: TextButton(
+                                                onPressed: () {
+                                                  exit(0);
+                                                },
+                                                child: const Text('關閉此程式',
+                                                    textScaleFactor: 2))),
+                                        Expanded(
+                                            child: TextButton(
+                                                onPressed: () {
+                                                  Util.openUri(
+                                                      'https://prismlauncher.org/');
+                                                },
+                                                child: const Text(
+                                                    '前往 Prism Launcher 官網',
+                                                    textScaleFactor: 2))),
+                                        Expanded(
+                                            child: TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: const Text(
+                                                  '已知風險，仍繼續使用',
+                                                  textScaleFactor: 2,
+                                                  style: TextStyle(
+                                                      color: Colors.red),
+                                                ))),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    const Divider(),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    const Text(
+                                      "RPMTW 相關連結",
+                                      textScaleFactor: 2,
+                                    ),
+                                    Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          IconButton(
+                                            onPressed: () {
+                                              Util.openUri(
+                                                  LauncherInfo.homePageUrl);
+                                            },
+                                            icon: const Icon(LineIcons.home,
+                                                size: 50),
+                                            tooltip:
+                                                I18n.format('homepage.website'),
+                                          ),
+                                          IconButton(
+                                            onPressed: () {
+                                              Util.openUri(
+                                                  LauncherInfo.githubRepoUrl);
+                                            },
+                                            icon: const Icon(LineIcons.github,
+                                                size: 50),
+                                            tooltip:
+                                                I18n.format('about.github'),
+                                          ),
+                                          IconButton(
+                                            onPressed: () {
+                                              Util.openUri(
+                                                  LauncherInfo.discordUrl);
+                                            },
+                                            icon: const Icon(
+                                              LineIcons.discord,
+                                              size: 50,
+                                            ),
+                                            tooltip:
+                                                I18n.format('about.discord'),
+                                          ),
+                                        ]),
+                                  ],
+                                )))));
+              });
+            });
       }
     });
   }

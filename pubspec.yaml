@@ -24,7 +24,7 @@ dependencies:
   oauth2: ^2.0.0
   dart_minecraft: ^0.5.1
   dynamic_themes: ^1.1.0
-  intl: ^0.17.0
+  intl: ^0.18.1
   toml: ^0.13.1
   line_icons: ^2.0.1
   flutter_markdown: ^0.6.10
@@ -50,7 +50,7 @@ dependencies:
   dart_discord_rpc:
     git: https://github.com/RPMTW/dart_discord_rpc.git
   uuid: ^3.0.6
-  sentry_flutter: ^6.5.1
+  sentry_flutter: ^7.9.0
   file_picker: ^4.5.1
   rpmtw_dart_common_library: ^0.0.4
   flutter_window_close: ^0.2.2

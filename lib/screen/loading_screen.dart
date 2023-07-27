@@ -6,24 +6,23 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_window_close/flutter_window_close.dart';
 import 'package:path/path.dart';
+import 'package:rpmlauncher/config/config.dart';
 import 'package:rpmlauncher/database/database.dart';
 import 'package:rpmlauncher/function/analytics.dart';
 import 'package:rpmlauncher/handler/window_handler.dart';
-import 'package:rpmlauncher/screen/main_screen.dart';
-import 'package:rpmlauncher/config/config.dart';
 import 'package:rpmlauncher/i18n/i18n.dart';
+import 'package:rpmlauncher/model/account/Account.dart';
+import 'package:rpmlauncher/screen/main_screen.dart';
+import 'package:rpmlauncher/util/data.dart';
 import 'package:rpmlauncher/util/launcher_info.dart';
 import 'package:rpmlauncher/util/logger.dart';
-import 'package:rpmlauncher/util/data.dart';
 import 'package:rpmlauncher/util/theme.dart';
 import 'package:rpmlauncher/util/util.dart';
-import 'package:rpmlauncher/widget/rwl_loading.dart';
 import 'package:rpmlauncher/widget/dialog/CheckDialog.dart';
+import 'package:rpmlauncher/widget/rwl_loading.dart';
 import 'package:rpmlauncher_plugin/rpmlauncher_plugin.dart';
 import 'package:rpmtw_api_client/rpmtw_api_client.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
-
-import 'package:rpmlauncher/model/account/Account.dart';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({Key? key}) : super(key: key);
@@ -155,37 +154,41 @@ class _LoadingScreenState extends State<LoadingScreen> {
               });
             }
             newEvent = event.copyWith(
-                user: SentryUser(
-                    id: launcherConfig.googleAnalyticsClientId,
-                    username: userName,
-                    ipAddress: '{{auto}}',
-                    data: {
-                      'userOrigin': LauncherInfo.userOrigin,
-                      'githubSourceMap': githubSourceMap,
-                      'config': ConfigHelper.getAll(),
-                    }),
-                contexts: event.contexts.copyWith(
-                    device: SentryDevice(
-                  arch: Util.getCPUArchitecture().replaceAll('AMD64', 'X86_64'),
-                  memorySize:
-                      ((await RPMLauncherPlugin.getTotalPhysicalMemory())
-                                  .physical *
-                              1024 *
-                              1024)
-                          .toInt(),
-                  language: Platform.localeName,
-                  name: Platform.localHostname,
-                  simulator: false,
-                  screenHeightPixels: size.height.toInt(),
-                  screenWidthPixels: size.width.toInt(),
-                  screenDensity: data.devicePixelRatio,
-                  online: true,
-                  screenDpi: (data.devicePixelRatio * 160).toInt(),
-                  screenResolution: '${size.width}x${size.height}',
-                  theme: ThemeUtil.getThemeByID(launcherConfig.themeId).name,
-                  timezone: DateTime.now().timeZoneName,
-                )),
-                exceptions: exceptions);
+              user: SentryUser(
+                  id: launcherConfig.googleAnalyticsClientId,
+                  username: userName,
+                  ipAddress: '{{auto}}',
+                  data: {
+                    'userOrigin': LauncherInfo.userOrigin,
+                    'githubSourceMap': githubSourceMap,
+                    'config': ConfigHelper.getAll(),
+                  }),
+              contexts: event.contexts.copyWith(
+                  device: SentryDevice(
+                    arch:
+                        Util.getCPUArchitecture().replaceAll('AMD64', 'X86_64'),
+                    memorySize:
+                        ((await RPMLauncherPlugin.getTotalPhysicalMemory())
+                                    .physical *
+                                1024 *
+                                1024)
+                            .toInt(),
+                    name: Platform.localHostname,
+                    simulator: false,
+                    screenHeightPixels: size.height.toInt(),
+                    screenWidthPixels: size.width.toInt(),
+                    screenDensity: data.devicePixelRatio,
+                    online: true,
+                    screenDpi: (data.devicePixelRatio * 160).toInt(),
+                  ),
+                  culture: SentryCulture(
+                      timezone: DateTime.now().timeZoneName,
+                      locale: Platform.localeName),
+                  operatingSystem: SentryOperatingSystem(
+                      theme:
+                          ThemeUtil.getThemeByID(launcherConfig.themeId).name)),
+              exceptions: exceptions,
+            );
 
             return newEvent;
           } else {
