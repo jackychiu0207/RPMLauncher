@@ -76,7 +76,7 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                     const SingleChildScrollView(
                                         child: Text(
-                                      "有鑑於當初 RPMLauncher 的設計問題，留下了許多技術債，導致目前的啟動器存在大量 bug 與穩定性問題。\n因此，我們決定重新設計，這次不僅僅是重新設計技術層面，我們也將大幅改進使用者介面與體驗。\n\n全新的啟動器將稱作 Era Connect，期望在未來帶給您最好的體驗!\n\n在 Era Connect 正式發布之前，我們強烈建議您以 Prism Launcher 作為替代方案，點選下方按紐即可前往其官方網站。\n\n如果您仍想要繼續使用 RPMLauncher，請按下方按鈕繼續，但請自行承擔風險，我們也不接受任何的技術支援。",
+                                      "有鑑於當初 RPMLauncher 的設計問題，留下了許多技術債，導致目前的啟動器存在大量 bug 與穩定性問題。\n因此，我們決定重新設計，這次不僅僅是重新設計技術層面，我們也將大幅改進使用者介面與體驗。\n\n全新的啟動器將稱作 Era Connect，期望在未來帶給您最好的體驗!\n\n在 Era Connect 正式發布之前，我們強烈建議您以 Prism Launcher 作為替代方案，點選下方按鈕即可前往其官方網站。\n\n如果您仍想要繼續使用 RPMLauncher，請按下方按鈕繼續，但請自行承擔風險，我們也不接受任何的技術支援。",
                                       textScaleFactor: 1.5,
                                     )),
                                     const SizedBox(
